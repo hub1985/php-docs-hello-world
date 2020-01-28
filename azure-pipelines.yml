@@ -8,7 +8,7 @@ trigger:
 
 variables:
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'b2283605-3430-49cf-bd0a-87c919d5a4e1'
+  azureSubscription: '62b09d3e-4053-457c-8f38-cc2b23dfc8f7'
   
   # Web app name
   webAppName: 'my-phpapp-name'
@@ -21,6 +21,12 @@ variables:
 
   # Root folder under which your composer.json file is available.
   rootFolder: $(System.DefaultWorkingDirectory)
+
+  # the name of the service connection that you created above
+  serviceConnectionToAzure: phpconnection
+  # the name of your web app here is the same one you used above
+  # when you created the web app using the Azure CLI
+  appName: my-phpapp-name
 
 stages:
 - stage: Build
