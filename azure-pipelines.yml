@@ -72,9 +72,20 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: AzureWebApp@1
-            displayName: 'Deploy Azure Web App : my-phpapp-name'
+          - task: ArchiveFiles@1
+            displayName: Archive files
             inputs:
-              azureSubscription: $(azureSubscription)
-              appName: $(webAppName)
-              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+              rootFolder: $(System.DefaultWorkingDirectory)
+              includeRootFolder: false
+              archiveType: zip
+        - task: PublishBuildArtifacts@1
+          displayName: Publish Artifact
+          inputs:
+            PathtoPublish: $(build.artifactstagingdirectory)
+        - task: AzureWebApp@1
+          displayName: Azure Web App Deploy
+          inputs:
+            azureSubscription: $(serviceConnectionToAzure)
+            appType: webAppLinux
+            appName: $(appName)
+            package: $(build.artifactstagingdirectory)/**/*.zip
